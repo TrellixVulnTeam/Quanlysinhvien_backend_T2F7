@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
-const port = process.env.port;
+const port = process.env.PORT;
 const handlebars = require("express-handlebars");
 const path = require("path");
 const route = require("./routes");
