@@ -8,6 +8,7 @@ const jwt = require("jsonwebtoken");
 const { search } = require("../../../routes/home");
 require("dotenv").config();
 const secret = process.env.secret_password;
+const getlink = process.env.getlink;
 
 var today = new Date();
 var nextday = new Date().setDate(today.getDate() + 1);
@@ -34,8 +35,7 @@ class Gen_point {
               { expiresIn: "1h" }
             );
             res.status(200).json({
-              link:
-                "http://localhost:3000/student/qlsv/checkin/" + String(token),
+              link: getlink + String(token),
             });
           } else {
             res.status(404).json("Không tìm thấy tiết học");
