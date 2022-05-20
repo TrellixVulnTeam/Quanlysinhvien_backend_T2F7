@@ -162,17 +162,17 @@ router.use(
 router.use(
   "/Province/add",
   checkrole.CheckLogin(["admin"]),
-  ProvinceAndProvinceController.addProvince
+  EthnicAndProvinceController.addProvince
 );
 router.use(
   "/Province/delete",
   checkrole.CheckLogin(["admin"]),
-  ProvinceAndProvinceController.removeProvince
+  EthnicAndProvinceController.removeProvince
 );
 router.use(
   "/Province/update",
   checkrole.CheckLogin(["admin"]),
-  ProvinceAndProvinceController.updateProvince
+  EthnicAndProvinceController.updateProvince
 );
 
 module.exports = router;
