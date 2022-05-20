@@ -27,6 +27,19 @@ class EthnicAndProvinceController {
       });
   }
 
+  updateEthnic(req, res, next) {
+    Ethnic.findOneAndUpdate({
+      ethnicid: req.body.ethnicid,
+      ethnic_name: req.body.ethnic_name,
+    })
+      .then((data) => {
+        res.status(200).json(`Sửa thành công`);
+      })
+      .catch((err) => {
+        res.status(500).json({ messenge: "Lỗi Server", err: err });
+      });
+  }
+
   removeEthnic(req, res, next) {
     Ethnic.findOneAndDelete({
       ethnicid: req.body.ethnicid,
@@ -64,6 +77,18 @@ class EthnicAndProvinceController {
     }).then((data) => {
       res.status(200).json(`Xoá dân tộc ${data.province_name} thành công`);
     });
+  }
+  updateProvince(req, res, next) {
+    Province.findOneAndUpdate({
+      provinceid: req.body.provinceid,
+      province_name: req.body.province_name,
+    })
+      .then((data) => {
+        res.status(200).json(`Sửa thành công`);
+      })
+      .catch((err) => {
+        res.status(500).json({ messenge: "Lỗi Server", err: err });
+      });
   }
 }
 module.exports = new EthnicAndProvinceController();

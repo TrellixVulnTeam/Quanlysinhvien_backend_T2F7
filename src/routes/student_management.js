@@ -8,6 +8,7 @@ const CourseController = require("../app/controllers/CourseController");
 const departmentController = require("../app/controllers/DepartmentController");
 const Gen_point = require("../app/controllers/helper/Gen_point");
 const StudyresultController = require("../app/controllers/StudyresultController");
+const EthnicAndProvinceController = require("../app/controllers/EthnicAndProvinceController");
 
 router.use(
   "/adduser",
@@ -140,6 +141,38 @@ router.use(
   "/studyresult/findbycourse",
   checkrole.CheckLogin(["admin", "student"]),
   StudyresultController.getResultbyCourse
+);
+
+router.use(
+  "/Ethnic/add",
+  checkrole.CheckLogin(["admin"]),
+  EthnicAndProvinceController.addEthnic
+);
+router.use(
+  "/Ethnic/delete",
+  checkrole.CheckLogin(["admin"]),
+  EthnicAndProvinceController.removeEthnic
+);
+router.use(
+  "/Ethnic/update",
+  checkrole.CheckLogin(["admin"]),
+  EthnicAndProvinceController.updateEthnic
+);
+
+router.use(
+  "/Province/add",
+  checkrole.CheckLogin(["admin"]),
+  ProvinceAndProvinceController.addProvince
+);
+router.use(
+  "/Province/delete",
+  checkrole.CheckLogin(["admin"]),
+  ProvinceAndProvinceController.removeProvince
+);
+router.use(
+  "/Province/update",
+  checkrole.CheckLogin(["admin"]),
+  ProvinceAndProvinceController.updateProvince
 );
 
 module.exports = router;
