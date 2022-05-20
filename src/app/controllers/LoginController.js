@@ -19,7 +19,9 @@ class loginController {
     })
       .then((data) => {
         if (data) {
-          res.status(200).json("Đăng nhập thành công");
+          res
+            .status(200)
+            .json({ messenge: "Đăng nhập thành công", role: data.role });
           // console.log(data)
         } else {
           res.status(300).json("Đăng nhập thất bại");
