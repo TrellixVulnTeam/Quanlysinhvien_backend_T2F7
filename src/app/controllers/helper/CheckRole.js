@@ -15,12 +15,12 @@ class CheckRole {
         }).then((data) => {
           if (data) {
             if (!permission.includes(data.role)) {
-              res.status(401).json("Lỗi : không được phép truy cập");
+              res.status(400).json("Lỗi : không được phép truy cập");
             } else {
               next();
             }
           } else {
-            res.status(300).json("Bạn chưa đăng nhập");
+            res.status(300).json("Tài khoản hoặc mật khẩu sai");
           }
         });
       }
