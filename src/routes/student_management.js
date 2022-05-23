@@ -11,7 +11,7 @@ const StudyresultController = require("../app/controllers/StudyresultController"
 const EthnicAndProvinceController = require("../app/controllers/EthnicAndProvinceController");
 
 router.use(
-  "/adduser",
+  "/user/adduser",
   checkrole.CheckLogin(["admin"]),
   studentController.adduser
 );
@@ -30,17 +30,17 @@ router.use(
   checkrole.CheckLogin(["admin"]),
   studentController.user
 );
-router.use("/user", checkrole.CheckLogin(["admin"]), studentController.find);
 router.use(
-  "/user/updatestudent/:id",
+  "/user/updateadmin/",
   checkrole.CheckLogin(["admin"]),
   studentController.updateadmin
 );
 router.use(
-  "/user/updatestudent/:id",
+  "/updatestudent/",
   checkrole.CheckLogin(["student"]),
   studentController.updatestudent
 );
+router.use("/user", checkrole.CheckLogin(["admin"]), studentController.find);
 
 router.use(
   "/class/addclass",
@@ -90,7 +90,7 @@ router.use(
 );
 router.use(
   "/course/findbyuser",
-  checkrole.CheckLogin(["admin"]),
+  checkrole.CheckLogin(["admin", "student"]),
   CourseController.findSchedulebyUser
 );
 router.use(
@@ -141,6 +141,11 @@ router.use(
   "/studyresult/findbycourse",
   checkrole.CheckLogin(["admin", "student"]),
   StudyresultController.getResultbyCourse
+);
+router.use(
+  "/studyresult/changeresult",
+  checkrole.CheckLogin(["admin"]),
+  StudyresultController.ChangeResult
 );
 
 router.use(

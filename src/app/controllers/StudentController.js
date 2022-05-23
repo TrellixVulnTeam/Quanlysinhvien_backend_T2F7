@@ -39,9 +39,7 @@ class studentController {
                     res.status(200).json("Tạo tài khoản thành công");
                   })
                   .catch((err) => {
-                    res
-                      .status(300)
-                      .json({ messange: "Tạo tài khoản thất bại", err: err });
+                    res.status(300).json("Tạo tài khoản thất bại");
                   });
               });
             });
@@ -103,30 +101,26 @@ class studentController {
   }
 
   updatestudent(req, res, next) {
-    var userid = req.body.useridid;
-    convert.ConvertClass(req.body.classid).then((class_id) => {
+    var userid = req.body.useridlogin;
+    convert.ConvertProvince(req.body.provinceid).then((province_id) => {
       convert.ConvertEthnic(req.body.ethnicid).then((ethnic_id) => {
-        convert.ConvertEthnic(req.body.provinceid).then((province_id) => {
-          User.findOneAndUpdate(
-            { userid: userid },
-            {
-              password: req.body.password,
-              name: req.body.name,
-              role: req.body.role,
-              dob: req.body.dob,
-              address: req.body.address,
-              class_id: class_id,
-              ethnic_id: ethnic_id,
-              province_id: province_id,
-            }
-          )
-            .then((data) => {
-              res.status(200).json("Cập nhật thành công");
-            })
-            .catch((err) => {
-              res.status(500).json("Cập nhật thất bại");
-            });
-        });
+        User.findOneAndUpdate(
+          { userid: userid },
+          {
+            password: req.body.password,
+            name: req.body.name,
+            dob: req.body.dob,
+            address: req.body.address,
+            ethnic_id: ethnic_id,
+            province_id: province_id,
+          }
+        )
+          .then((data) => {
+            res.status(200).json("Cập nhật thành công");
+          })
+          .catch((err) => {
+            res.status(500).json("Cập nhật thất bại");
+          });
       });
     });
   }

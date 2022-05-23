@@ -10,20 +10,27 @@ require("dotenv").config();
 const secret = process.env.secret_password;
 const getlink = process.env.getlink;
 
+var newdate = new Date();
 var today = new Date();
-var nextday = new Date().setDate(today.getDate() + 1);
+today.setHours(newdate.getHours() + 7);
+today.setUTCHours(0, 0, 0, 0);
+today = today.toISOString();
+// var nextday = new Date().setDate(today.getDate() + 1);
 // var lastday = new Date().setDate(today.getDate() - 1);
 
 class Gen_point {
   GetPointLink(req, res, next) {
     convert.ConvertCourse(req.body.courseid).then((course_id) => {
-      console.log(today);
       Course.findOne({
         course_id: course_id,
-        "schedule.Date": { $gt: today, $lte: nextday },
         "schedule.start": req.body.start,
+        "schedule.Date": today,
       })
+
         .then((data) => {
+          console.log(data.schedule[4].Date === today);
+          console.log(today);
+          console.log(data.schedule[4].Date);
           if (data) {
             var token = jwt.sign(
               {
@@ -42,7 +49,7 @@ class Gen_point {
           }
         })
         .catch((err) => {
-          res.status(500).json("Lỗi server");
+          res.status(500).json({ messange: "Lỗi server", err: err });
         });
     });
   }
@@ -60,13 +67,14 @@ class Gen_point {
               "studentsdetail.user_id": user_id,
             }).then((data) => {
               if (data) {
-                var checklog = data[0].schedule.find(
-                  (check) =>
-                    check.Date >= today &&
-                    check.Date <= nextday &&
-                    check.start === decode.start
+                console.log(typeof data[0].schedule);
+                const checklog = data[0].schedule.find(
+                  (obj) =>
+                    obj.Date.toISOString() === today &&
+                    obj.start === decode.start
                 );
 
+                console.log(checklog);
                 var checklog_json = checklog.Checked_in;
                 checklog_json = JSON.stringify(checklog_json);
 
@@ -82,7 +90,7 @@ class Gen_point {
                     {
                       arrayFilters: [
                         {
-                          "schedule.Date": { $gt: today, $lte: nextday },
+                          "schedule.Date": today,
                           "schedule.start": decode.start,
                         },
                       ],

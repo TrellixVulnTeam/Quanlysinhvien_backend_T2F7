@@ -92,5 +92,36 @@ class StudyresultController {
         res.status(500).json(err);
       });
   }
+
+  ChangeResult(req, res, next) {
+    convert
+      .ConvertUser(req.body.userid)
+      .then((user_id) => {
+        convert
+          .ConvertCourse(req.body.courseid)
+          .then((course_id) => {
+            Studyresult.findOneAndUpdate(
+              {
+                user_id: user_id,
+                course_id: course_id,
+              },
+              {
+                Diem_ren_luyen: req.body.Diem_ren_luyen,
+                Kiem_tra_lan_1: req.body.Diem_qua_trinh.Kiem_tra_lan_1,
+                Kiem_tra_lan_2: req.body.Diem_qua_trinh.Kiem_tra_lan_2,
+                Kiem_tra_lan_3: req.body.Diem_qua_trinh.Kiem_tra_lan_3,
+                Kiem_tra_lan_4: req.body.Diem_qua_trinh.Kiem_tra_lan_4,
+                Diem_cuoi_ky: req.body.Diem_cuoi_ky,
+              }
+            );
+          })
+          .catch((err) => {
+            res.status(500).json(err);
+          });
+      })
+      .catch((err) => {
+        res.status(500).json(err);
+      });
+  }
 }
 module.exports = new StudyresultController();

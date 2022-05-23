@@ -90,8 +90,6 @@ class CourseController {
               function check(studentsdetail) {
                 var studentsdetailString = studentsdetail.toString();
                 var uidString = user_id.toString();
-                console.log(studentsdetailString);
-                console.log(uidString);
                 if (studentsdetailString.includes(uidString)) {
                   return true;
                 } else return false;
