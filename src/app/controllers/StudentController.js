@@ -70,6 +70,8 @@ class studentController {
                   name: req.body.name,
                   role: req.body.role,
                   dob: req.body.dob,
+                  sex: req.body.sex,
+                  telephone: req.body.telephone,
                   address: req.body.address,
                   class_id: class_id,
                   ethnic_id: ethnic_id,
@@ -123,6 +125,8 @@ class studentController {
               role: req.body.role,
               dob: req.body.dob,
               address: req.body.address,
+              sex: req.body.sex,
+              telephone: req.body.telephone,
               class_id: class_id,
               ethnic_id: ethnic_id,
               province_id: province_id,
@@ -153,6 +157,8 @@ class studentController {
             address: req.body.address,
             ethnic_id: ethnic_id,
             province_id: province_id,
+            sex: req.body.sex,
+            telephone: req.body.telephone,
           }
         )
           .then((data) => {
