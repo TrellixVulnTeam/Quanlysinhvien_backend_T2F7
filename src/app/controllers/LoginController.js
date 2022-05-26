@@ -10,8 +10,8 @@ express.json();
 
 class loginController {
   login(req, res, next) {
-    var userid = req.body.useridlogin;
-    var password = req.body.passwordlogin;
+    var userid = req.headers.useridlogin;
+    var password = req.headers.passwordlogin;
 
     User.findOne({
       userid: userid,
@@ -19,16 +19,14 @@ class loginController {
     })
       .then((data) => {
         if (data) {
-          res
-            .status(200)
-            .json({ messenge: "Đăng nhập thành công", role: data.role });
+          res.json({ messenge: "Đăng nhập thành công", role: data.role });
           // console.log(data)
         } else {
-          res.status(300).json("Đăng nhập thất bại");
+          res.json("Đăng nhập thất bại");
         }
       })
       .catch((err) => {
-        res.status(500).json("Đăng nhập thất bại");
+        res.status(500).json({ messenge: "Lỗi Server", err: err });
       });
   }
 }

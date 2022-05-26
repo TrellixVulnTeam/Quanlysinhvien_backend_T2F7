@@ -13,6 +13,46 @@ express.urlencoded({
 express.json();
 
 class studentController {
+  finduser(req, res, next) {
+    convert
+      .ConvertClass(req.body.classid)
+      .then((class_id) => {
+        convert.ConvertEthnic(req.body.ethnicid).then((ethnic_id) => {
+          convert.ConvertEthnic(req.body.provinceid).then((province_id) => {
+            var objdata = req.body;
+            console.log(typeof objdata);
+            if (class_id) {
+              objdata.class_id = class_id;
+            }
+            if (ethnic_id) {
+              objdata.ethnic_id = ethnic_id;
+            }
+            if (province_id) {
+              objdata.province_id = province_id;
+            }
+
+            User.find({
+              objdata,
+            })
+              .populate({
+                path: "class_id",
+                populate: {
+                  path: "department_id",
+                },
+              })
+              .populate("ethnic_id")
+              .populate("province_id")
+              .then((data) => {
+                res.json(data);
+              });
+          });
+        });
+      })
+      .catch((err) => {
+        res.json(500).json({ messange: "Lỗi server", err: err });
+      });
+  }
+
   adduser(req, res, next) {
     User.findOne({
       userid: req.body.userid,
@@ -36,7 +76,7 @@ class studentController {
                   province_id: province_id,
                 })
                   .then((data) => {
-                    res.status(200).json("Tạo tài khoản thành công");
+                    res.json("Tạo tài khoản thành công");
                   })
                   .catch((err) => {
                     res.status(300).json("Tạo tài khoản thất bại");
@@ -48,12 +88,12 @@ class studentController {
       })
 
       .catch((err) => {
-        res.status(300).json("Tạo tài khoản thất bại");
+        res.json("Tạo tài khoản thất bại");
       });
   }
 
-  find(req, res, next) {
-    User.find(req.query)
+  getuser(req, res, next) {
+    User.find()
       .populate({
         path: "class_id",
         populate: {
@@ -64,7 +104,7 @@ class studentController {
       .populate("province_id")
 
       .then((data) => {
-        res.status(200).json(data);
+        res.json(data);
       })
       .catch((err) => {
         res.status(500).json("Lỗi Server");
@@ -89,7 +129,7 @@ class studentController {
             }
           )
             .then((data) => {
-              res.status(200).json("Cập nhật thành công");
+              res.json("Cập nhật thành công");
               console.log(data);
             })
             .catch((err) => {
@@ -101,7 +141,7 @@ class studentController {
   }
 
   updatestudent(req, res, next) {
-    var userid = req.body.useridlogin;
+    var userid = req.headers.useridlogin;
     convert.ConvertProvince(req.body.provinceid).then((province_id) => {
       convert.ConvertEthnic(req.body.ethnicid).then((ethnic_id) => {
         User.findOneAndUpdate(
@@ -116,7 +156,7 @@ class studentController {
           }
         )
           .then((data) => {
-            res.status(200).json("Cập nhật thành công");
+            res.json("Cập nhật thành công");
           })
           .catch((err) => {
             res.status(500).json("Cập nhật thất bại");
@@ -126,7 +166,7 @@ class studentController {
   }
 
   myaccount(req, res, next) {
-    var userid = req.body.useridlogin;
+    var userid = req.headers.useridlogin;
     User.find({
       userid: userid,
     })
@@ -139,7 +179,7 @@ class studentController {
       .populate("ethnic_id")
       .populate("province_id")
       .then((data) => {
-        res.status(200).json(data);
+        res.json(data);
       })
       .catch((err) => {
         res.status(500).json("Lỗi Server");
@@ -159,8 +199,7 @@ class studentController {
       .populate("province_id")
       .then((data) => {
         if (data) {
-          res.status(200).json(data);
-          console.log(req.params.id);
+          res.json(data);
         } else {
           res.status(500).json("Sinh viên không tồn tại");
         }
@@ -174,7 +213,7 @@ class studentController {
     var userid = req.params.id;
     User.findOneAndDelete({ userid: userid })
       .then((data) => {
-        res.status(200).json("Xoá thành công");
+        res.json("Xoá thành công");
       })
       .catch((err) => {
         res.status(500).json("Xoá thất bại");

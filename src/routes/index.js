@@ -1,6 +1,5 @@
 const homeRouter = require("./home");
 const loginRouter = require("./login");
-const studentRouter = require("./student_management");
 const checkrole = require("../app/controllers/helper/CheckRole");
 const adminrole = require("./adminrole");
 const studentrole = require("./studentrole");

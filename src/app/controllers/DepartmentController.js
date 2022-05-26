@@ -21,7 +21,7 @@ class departmentController {
             departmentid: req.body.departmentid,
             departmentname: req.body.departmentname,
           }).then((data) => {
-            res.status(200).json("Tạo khoa thành công");
+            res.json("Tạo khoa thành công");
           });
         }
       })
@@ -51,7 +51,7 @@ class departmentController {
         }
       )
       .then((data) => {
-        res.status(200).json("Cập nhật thành công");
+        res.json("Cập nhật thành công");
       })
       .catch((err) => {
         res.status(500).json("Cập nhật thất bại");
@@ -62,7 +62,7 @@ class departmentController {
     var departmentid = req.params.id;
     Department.delete({ departmentid: departmentid })
       .then((data) => {
-        res.status(200).json("Xoá thành công");
+        res.json("Xoá thành công");
       })
       .catch((err) => {
         res.status(500).json("Xoá thất bại");

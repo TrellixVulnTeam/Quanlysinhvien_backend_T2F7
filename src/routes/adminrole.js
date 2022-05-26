@@ -1,10 +1,10 @@
 const homeRouter = require("./home");
 const loginRouter = require("./login");
-const studentRouter = require("./student_management");
+const adminroute = require("./admin_route/admin_route");
 var express = require("express");
 var router = express.Router();
 
-router.use("/qlsv", studentRouter);
+router.use("/qlsv", adminroute);
 router.use("/login", loginRouter);
 router.use("/", homeRouter);
 

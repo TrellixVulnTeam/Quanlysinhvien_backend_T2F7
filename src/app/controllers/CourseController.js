@@ -35,7 +35,7 @@ class CourseController {
                       AddToCourse.AddScheduleToCourse(
                         req.body.courseid,
                         req.body.schedule
-                      ).then(res.status(200).json("Thành công"));
+                      ).then(res.json("Thành công"));
                     })
                     .catch((err) => {
                       res.status(500).json("Lỗi Server");
@@ -45,7 +45,7 @@ class CourseController {
                   res.status(500).json("Lỗi Server");
                 })
                 .then((data) => {
-                  res.status(200).json("Tạo lớp học thành công");
+                  res.json("Tạo lớp học thành công");
                 })
                 .catch((err) => {
                   res.status(500).json(err);
@@ -61,7 +61,7 @@ class CourseController {
       });
   }
 
-  find(req, res, next) {
+  getall(req, res, next) {
     Course.find(req.query)
       .populate({
         path: "studentsdetail",
@@ -81,7 +81,7 @@ class CourseController {
 
   student_resign(req, res, next) {
     convert
-      .ConvertUser(req.body.useridlogin)
+      .ConvertUser(req.headers.useridlogin)
       .then((user_id) => {
         convert
           .ConvertCourse(req.body.courseid)
@@ -114,7 +114,7 @@ class CourseController {
                         user_id: user_id,
                         course_id: data._id,
                       })
-                        .then(res.status(200).json("Bạn đã đăng ký thành công"))
+                        .then(res.json("Bạn đã đăng ký thành công"))
                         .catch((err) => {
                           res.status(500).json(err);
                         });
@@ -150,7 +150,7 @@ class CourseController {
           }
         )
           .then((data) => {
-            res.status(200).json("Cập nhật thành công");
+            res.json("Cập nhật thành công");
           })
           .catch((err) => {
             res.status(500).json("Cập nhật thất bại");
@@ -165,7 +165,7 @@ class CourseController {
     var courseid = req.params.id;
     Course.findOneAndDelete({ courseid: courseid })
       .then((data) => {
-        res.status(200).json("Xoá thành công");
+        res.json("Xoá thành công");
       })
       .catch((err) => {
         res.status(500).json("Xoá thất bại");
@@ -173,7 +173,7 @@ class CourseController {
   }
 
   findSchedulebyUser(req, res, next) {
-    convert.ConvertUser(req.body.userid).then((user_id) => {
+    convert.ConvertUser(req.params.id).then((user_id) => {
       Course.find({
         "studentsdetail.user_id": user_id,
       })
@@ -202,7 +202,7 @@ class CourseController {
               schedule: newobj,
             });
           });
-          res.status(200).json(objdata);
+          res.json(objdata);
         })
         .catch((err) => {
           res.status(500).json(err);
@@ -212,7 +212,7 @@ class CourseController {
 
   findSchedulebyCourse(req, res, next) {
     Course.find({
-      courseid: req.body.courseid,
+      courseid: req.params.id,
     })
       .populate({ path: "studentsdetail", populate: "user_id" })
       .populate({ path: "subject_id", populate: "department_id" })
@@ -234,7 +234,7 @@ class CourseController {
             schedule: newobj,
           });
         });
-        res.status(200).json(dataobj);
+        res.json(dataobj);
       })
       .catch((err) => res.status(500).json(err));
   }

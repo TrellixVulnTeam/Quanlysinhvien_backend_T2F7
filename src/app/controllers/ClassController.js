@@ -22,7 +22,7 @@ class classController {
                 classname: req.body.classname,
                 department_id: department_id,
               }).then((data) => {
-                res.status(200).json("Tạo lớp thành công");
+                res.json("Tạo lớp thành công");
               });
             });
         }
@@ -56,7 +56,7 @@ class classController {
       }
     )
       .then((data) => {
-        res.status(200).json("Cập nhật thành công");
+        res.json("Cập nhật thành công");
       })
       .catch((err) => {
         res.status(500).json("Cập nhật thất bại");
@@ -67,7 +67,7 @@ class classController {
     var classid = req.params.id;
     Class.findOneAndDelete({ classid: classid })
       .then((data) => {
-        res.status(200).json("Xoá thành công");
+        res.json("Xoá thành công");
       })
       .catch((err) => {
         res.status(500).json("Xoá thất bại");
@@ -87,7 +87,7 @@ class classController {
               name: element.name,
             });
           });
-          res.status(200).json(dataobj);
+          res.json(dataobj);
         })
         .catch((err) => {
           res.status(500).json("Lỗi Server");

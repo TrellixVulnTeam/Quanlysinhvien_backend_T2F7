@@ -9,6 +9,7 @@ const { search } = require("../../../routes/home");
 require("dotenv").config();
 const secret = process.env.secret_password;
 const getlink = process.env.getlink;
+var QRCode = require("qrcode");
 
 var newdate = new Date();
 var today = new Date();
@@ -28,9 +29,6 @@ class Gen_point {
       })
 
         .then((data) => {
-          console.log(data.schedule[4].Date === today);
-          console.log(today);
-          console.log(data.schedule[4].Date);
           if (data) {
             var token = jwt.sign(
               {
@@ -41,8 +39,13 @@ class Gen_point {
               secret,
               { expiresIn: "1h" }
             );
-            res.status(200).json({
-              link: getlink + String(token),
+            var link = getlink + String(token);
+            QRCode.toDataURL(link, function (err, qrcode) {
+              if (err) {
+                res.status(500).json({ messange: "lỗi server", err: err });
+              } else {
+                res.json({ link: link, qrcode: qrcode });
+              }
             });
           } else {
             res.status(404).json("Không tìm thấy tiết học");
@@ -58,7 +61,7 @@ class Gen_point {
     jwt.verify(req.params.token, secret, (err, decode) => {
       if (!err) {
         convert
-          .ConvertUser(req.body.useridlogin)
+          .ConvertUser(req.headers.useridlogin)
           .then((user_id) => {
             let ornuserid = user_id;
             let userobjid = user_id.toString();
@@ -67,21 +70,18 @@ class Gen_point {
               "studentsdetail.user_id": user_id,
             }).then((data) => {
               if (data) {
-                console.log(typeof data[0].schedule);
                 const checklog = data[0].schedule.find(
                   (obj) =>
                     obj.Date.toISOString() === today &&
                     obj.start === decode.start
                 );
 
-                console.log(checklog);
                 var checklog_json = checklog.Checked_in;
                 checklog_json = JSON.stringify(checklog_json);
 
                 if (checklog_json.includes(userobjid)) {
                   res.status(200).json("Bạn đã điểm danh rồi");
                 } else {
-                  console.log(userobjid);
                   Course.findOneAndUpdate(
                     {
                       course_id: decode.course_id,
@@ -138,7 +138,7 @@ class Gen_point {
           })
           .catch(err);
       } else {
-        res.status(400).json("Lỗi Server");
+        res.status(400).json("Mã QR không hợp lệ");
       }
     });
   }

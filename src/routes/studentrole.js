@@ -1,6 +1,6 @@
 const homeRouter = require("./home");
 const loginRouter = require("./login");
-const studentRouter = require("./student_management");
+const studentRouter = require("./student_route/student_route");
 var express = require("express");
 var router = express.Router();
 

@@ -6,12 +6,12 @@ const User = require("../../models/User");
 class CheckRole {
   CheckLogin = (permission) => {
     return (req, res, next) => {
-      if (req.body.useridlogin === null) {
-        res.status(403).json("Bạn chưa đăng nhập");
+      if (req.headers.useridlogin === null) {
+        res.json("Bạn chưa đăng nhập");
       } else {
         User.findOne({
-          userid: req.body.useridlogin,
-          password: req.body.passwordlogin,
+          userid: req.headers.useridlogin,
+          password: req.headers.passwordlogin,
         }).then((data) => {
           if (data) {
             if (!permission.includes(data.role)) {
@@ -20,7 +20,7 @@ class CheckRole {
               next();
             }
           } else {
-            res.status(300).json("Tài khoản hoặc mật khẩu sai");
+            res.json("Tài khoản hoặc mật khẩu sai");
           }
         });
       }

@@ -16,7 +16,7 @@ class EthnicAndProvinceController {
             ethnicid: req.body.ethnicid,
             ethnic_name: req.body.ethnic_name,
           })
-            .then(res.status(200).json("Thêm dân tộc thành công"))
+            .then(res.json("Thêm dân tộc thành công"))
             .catch((err) => {
               res.status(500).json("Lỗi Server");
             });
@@ -28,12 +28,17 @@ class EthnicAndProvinceController {
   }
 
   updateEthnic(req, res, next) {
-    Ethnic.findOneAndUpdate({
-      ethnicid: req.body.ethnicid,
-      ethnic_name: req.body.ethnic_name,
-    })
+    Ethnic.findOneAndUpdate(
+      {
+        ethnicid: req.params.id,
+      },
+      {
+        ethnicid: req.body.ethnicid,
+        ethnic_name: req.body.ethnic_name,
+      }
+    )
       .then((data) => {
-        res.status(200).json(`Sửa thành công`);
+        res.json(`Sửa thành công`);
       })
       .catch((err) => {
         res.status(500).json({ messenge: "Lỗi Server", err: err });
@@ -42,9 +47,9 @@ class EthnicAndProvinceController {
 
   removeEthnic(req, res, next) {
     Ethnic.findOneAndDelete({
-      ethnicid: req.body.ethnicid,
+      ethnicid: req.params.id,
     }).then((data) => {
-      res.status(200).json(`Xoá dân tộc ${data.ethnic_name} thành công`);
+      res.json(`Xoá dân tộc ${data.ethnic_name} thành công`);
     });
   }
 
@@ -60,7 +65,7 @@ class EthnicAndProvinceController {
             provinceid: req.body.provinceid,
             province_name: req.body.province_name,
           })
-            .then(res.status(200).json("Thêm dân tộc thành công"))
+            .then(res.json("Thêm dân tộc thành công"))
             .catch((err) => {
               res.status(500).json("Lỗi Server");
             });
@@ -73,18 +78,23 @@ class EthnicAndProvinceController {
 
   removeProvince(req, res, next) {
     Province.findOneAndDelete({
-      provinceid: req.body.provinceid,
+      provinceid: req.params.id,
     }).then((data) => {
-      res.status(200).json(`Xoá dân tộc ${data.province_name} thành công`);
+      res.json(`Xoá dân tộc ${data.province_name} thành công`);
     });
   }
   updateProvince(req, res, next) {
-    Province.findOneAndUpdate({
-      provinceid: req.body.provinceid,
-      province_name: req.body.province_name,
-    })
+    Province.findOneAndUpdate(
+      {
+        provinceid: req.params.id,
+      },
+      {
+        provinceid: req.body.provinceid,
+        province_name: req.body.province_name,
+      }
+    )
       .then((data) => {
-        res.status(200).json(`Sửa thành công`);
+        res.json(`Sửa thành công`);
       })
       .catch((err) => {
         res.status(500).json({ messenge: "Lỗi Server", err: err });

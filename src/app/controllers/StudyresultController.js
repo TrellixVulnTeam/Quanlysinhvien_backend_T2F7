@@ -36,7 +36,7 @@ class StudyresultController {
 
   getResultbyCourse(req, res, next) {
     convert
-      .ConvertCourse(req.body.courseid)
+      .ConvertCourse(req.params.id)
       .then((course_id) => {
         Studyresult.find({ course_id: course_id })
           .populate("user_id")
@@ -56,7 +56,7 @@ class StudyresultController {
                 Diem_cuoi_ky: element.Diem_cuoi_ky,
               });
             });
-            res.status(200).json(dataobj);
+            res.json(dataobj);
           });
       })
       .catch((err) => {
@@ -66,7 +66,7 @@ class StudyresultController {
 
   getResultbyUser(req, res, next) {
     convert
-      .ConvertUser(req.body.userid)
+      .ConvertUser(req.params.id)
       .then((user_id) => {
         Studyresult.find({ user_id: user_id })
           .populate("user_id")
@@ -85,7 +85,7 @@ class StudyresultController {
                 Diem_cuoi_ky: element.Diem_cuoi_ky,
               });
             });
-            res.status(200).json(dataobj);
+            res.json(dataobj);
           });
       })
       .catch((err) => {
@@ -95,7 +95,7 @@ class StudyresultController {
 
   ChangeResult(req, res, next) {
     convert
-      .ConvertUser(req.body.userid)
+      .ConvertUser(req.params.id)
       .then((user_id) => {
         convert
           .ConvertCourse(req.body.courseid)
