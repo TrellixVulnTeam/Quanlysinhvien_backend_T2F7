@@ -34,7 +34,7 @@ router.delete("/department/:id", departmentController.delete);
 router.put("/adddepartment/:id", departmentController.updateadmin);
 router.get("/department", departmentController.find);
 
-router.use("/getlink", Gen_point.GetPointLink);
+router.post("/getlink", Gen_point.GetPointLink);
 
 router.get(
   "/studyresult/findbyuser/:id",
@@ -53,7 +53,7 @@ router.post("/Ethnic/add", EthnicAndProvinceController.addEthnic);
 router.delete("/Ethnic/:id", EthnicAndProvinceController.removeEthnic);
 router.put("/Ethnic/:id", EthnicAndProvinceController.updateEthnic);
 
-router.use("/Province/add", EthnicAndProvinceController.addProvince);
+router.post("/Province/add", EthnicAndProvinceController.addProvince);
 router.delete("/Province/:id", EthnicAndProvinceController.removeProvince);
 router.put("/Province/:id", EthnicAndProvinceController.updateProvince);
 

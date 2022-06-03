@@ -7,7 +7,9 @@ const handlebars = require("express-handlebars");
 const path = require("path");
 const route = require("./routes");
 const db = require("./config/db");
+const cors = require("cors");
 
+app.use(cors());
 db.connect();
 app.use(express.static(path.join(__dirname, "public")));
 app.use(morgan("combined"));

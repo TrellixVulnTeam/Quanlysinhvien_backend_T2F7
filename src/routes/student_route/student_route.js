@@ -8,23 +8,27 @@ const Gen_point = require("../../app/controllers/helper/Gen_point");
 const StudyresultController = require("../../app/controllers/StudyresultController");
 const EthnicAndProvinceController = require("../../app/controllers/EthnicAndProvinceController");
 
-router.use("/user/myaccount", studentController.myaccount);
-router.use("/updatestudent/", studentController.updatestudent);
-router.use("/class/finduser", ClassController.findUserbyClass);
-router.use("/class", ClassController.find);
+router.get("/user/myaccount", studentController.myaccount);
+router.put("/user/updatestudent/", studentController.updatestudent);
 
-router.use("/course/resign_course", CourseController.student_resign);
-router.use("/course/findbyuser", CourseController.findSchedulebyUser);
-router.use("/course/findbycourse", CourseController.findSchedulebyCourse);
-router.use("/course", CourseController.getall);
+router.get("/class/finduser/:id", ClassController.findUserbyClass);
+router.get("/class", ClassController.find);
 
-router.use("/department", departmentController.find);
+router.post("/course/resign_course", CourseController.student_resign);
+router.get("/course/findbyuser/:id", CourseController.findSchedulebyUser);
+router.get("/course/findbycourse/:id", CourseController.findSchedulebyCourse);
+router.get("/course", CourseController.getall);
 
-router.post("/checkin/:token", Gen_point.CheckPointLink);
+router.get("/department", departmentController.find);
 
-router.use("/studyresult/findbyuser", StudyresultController.getResultbyUser);
-router.use(
-  "/studyresult/findbycourse",
+router.get("/checkin/:token", Gen_point.CheckPointLink);
+
+router.get(
+  "/studyresult/findbyuser/:id",
+  StudyresultController.getResultbyUser
+);
+router.get(
+  "/studyresult/findbycourse/:id",
   StudyresultController.getResultbyCourse
 );
 
