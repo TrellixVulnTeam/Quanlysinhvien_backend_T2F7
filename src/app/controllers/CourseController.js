@@ -80,8 +80,9 @@ class CourseController {
   }
 
   student_resign(req, res, next) {
+    var tokenlogin = jwt.verify(req.headers.token, secret);
     convert
-      .ConvertUser(req.headers.useridlogin)
+      .ConvertUser(tokenlogin.useridlogin)
       .then((user_id) => {
         convert
           .ConvertCourse(req.body.courseid)

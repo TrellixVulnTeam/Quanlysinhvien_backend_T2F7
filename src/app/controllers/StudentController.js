@@ -145,7 +145,8 @@ class studentController {
   }
 
   updatestudent(req, res, next) {
-    var userid = req.headers.useridlogin;
+    var tokenlogin = jwt.verify(req.headers.token, secret);
+    var userid = tokenlogin.useridlogin;
     convert.ConvertProvince(req.body.provinceid).then((province_id) => {
       convert.ConvertEthnic(req.body.ethnicid).then((ethnic_id) => {
         User.findOneAndUpdate(
@@ -172,7 +173,8 @@ class studentController {
   }
 
   myaccount(req, res, next) {
-    var userid = req.headers.useridlogin;
+    var tokenlogin = jwt.verify(req.headers.token, secret);
+    var userid = tokenlogin.useridlogin;
     User.find({
       userid: userid,
     })

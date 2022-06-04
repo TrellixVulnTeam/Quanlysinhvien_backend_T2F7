@@ -60,8 +60,9 @@ class Gen_point {
   CheckPointLink(req, res, next) {
     jwt.verify(req.params.token, secret, (err, decode) => {
       if (!err) {
+        var tokenlogin = jwt.verify(req.headers.token, secret);
         convert
-          .ConvertUser(req.headers.useridlogin)
+          .ConvertUser(tokenlogin.useridlogin)
           .then((user_id) => {
             let ornuserid = user_id;
             let userobjid = user_id.toString();

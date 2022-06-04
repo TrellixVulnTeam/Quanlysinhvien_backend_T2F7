@@ -4,15 +4,14 @@ const res = require("express/lib/response");
 const { decode } = require("jsonwebtoken");
 const User = require("../../models/User");
 var secret_password = process.env.secret_password;
-
+const jwt = require("jsonwebtoken");
 class CheckRole {
   CheckLogin = (permission) => {
     return (req, res, next) => {
       if (req.headers.token === null) {
         res.json("Bạn chưa đăng nhập");
-      } 
-      else {
-        jwt.verify(token, secret_password, function (err, decode) {
+      } else {
+        jwt.verify(req.headers.token, secret_password, function (err, decode) {
           if (!err) {
             User.findOne({
               userid: decode.useridlogin,
@@ -27,8 +26,7 @@ class CheckRole {
                 res.json("Tài khoản hoặc mật khẩu sai");
               }
             });
-          } 
-          else {
+          } else {
             res.json("Mã token không đúng");
           }
         });
